@@ -3,8 +3,6 @@ const ProductService = require("./src/service/product.service");
 
 module.exports.hello = async (event) => {
   const operation = event.info.fieldName;
-  console.log({ operation });
-  console.log({ hello: "Im from github actions" });
   switch (operation) {
     case "getProduct":
       const productId = event.arguments.input.productId;
