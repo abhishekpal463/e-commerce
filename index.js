@@ -1,11 +1,10 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+const { DynamoDBDocumentClient } = require("@aws-sdk/lib-dynamodb");
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 
-const app = express();
-app.use(bodyParser.json());
-
-app.listen(3000, () => {
-  console.log("Express App Listening on Port 3000");
+const REGION = "us-east-1";
+const dynamoDbClient = new DynamoDBClient({
+  region: REGION,
 });
 
-module.exports = app;
+const dynamoDb = DynamoDBDocumentClient.from(dynamoDbClient);
+module.exports = dynamoDb;

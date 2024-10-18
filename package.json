@@ -8,7 +8,7 @@
     "debug": "nodemon index.js",
     "deploy": "serverless deploy",
     "test": "jest",
-    "unit:test:single":"npm run test -- eCommerce/src/__test__/repository/product.repository.test.js"
+    "unit:test:single": "npm run test -- eCommerce/src/__test__/repository/product.repository.test.js"
   },
   "keywords": [],
   "author": "",

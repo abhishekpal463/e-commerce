@@ -1,5 +1,4 @@
 "use strict";
-const app = require("./index");
 const ProductService = require("./src/service/product.service");
 
 module.exports.hello = async (event) => {

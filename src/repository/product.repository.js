@@ -4,20 +4,15 @@ const {
   UpdateCommand,
   DeleteCommand,
 } = require("@aws-sdk/lib-dynamodb");
-const dynamoDb = require('../db_connection/dbConnection')
+const dynamoDb = require("../db_connection/dbConnection");
 
 const { v4: uuidv4 } = require("uuid");
 
 const PRODUCTS_TABLE = "Products";
 
-
-
-
 class ProductRepository {
   /**
-   * Get all unpaid jobs for a user
-   * either a client or contractor,
-   * for active contracts only
+   * Fetch Product details by productId
    */
   static async getProductByID(productId) {
     const params = {
@@ -36,6 +31,9 @@ class ProductRepository {
     }
   }
 
+  /**
+   * Update Product details by productId
+   */
   static async updateProductByID(productId, updatedData) {
     const { name, description, price, category, stock } = updatedData;
     const updatedAt = new Date().toISOString();
@@ -62,6 +60,9 @@ class ProductRepository {
     }
   }
 
+  /**
+   * delete Product details by productId
+   */
   static async deleteProductByID(productId) {
     const params = {
       TableName: PRODUCTS_TABLE,
@@ -75,6 +76,9 @@ class ProductRepository {
     }
   }
 
+  /**
+   * Create Product
+   */
   static async createProduct(productData) {
     const { name, description, price, category, stock } = productData;
     const productId = uuidv4();
