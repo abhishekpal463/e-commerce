@@ -28,6 +28,10 @@ jobs:
       # Install dependencies (including Express)
       - name: Install npm dependencies
         run: npm ci  # This will install dependencies from package-lock.json
+        
+      - name: Run tests
+        run: |
+          npm test  # Make sure your test script is defined in package.json
       
       # Zip the application files, including node_modules and all other necessary files
       - name: Package and zip the application

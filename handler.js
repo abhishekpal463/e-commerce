@@ -1,8 +1,6 @@
 "use strict";
 const app = require("./index");
-const serverless = require("serverless-http");
-const ProductService = require("./service/product.service");
-//module.exports.hello = serverless(app);
+const ProductService = require("./src/service/product.service");
 
 module.exports.hello = async (event) => {
   const operation = event.info.fieldName;

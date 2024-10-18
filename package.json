@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "debug": "nodemon index.js",
-    "deploy": "serverless deploy"
+    "deploy": "serverless deploy",
+    "test": "jest",
+    "unit:test:single":"npm run test -- eCommerce/src/__test__/repository/product.repository.test.js"
   },
   "keywords": [],
   "author": "",
@@ -15,9 +17,8 @@
     "@aws-sdk/client-dynamodb": "^3.670.0",
     "@aws-sdk/lib-dynamodb": "^3.670.0",
     "body-parser": "^1.20.3",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "jest": "^29.7.0",
     "serverless-http": "^3.2.0",
     "uuid": "^10.0.0"
   },

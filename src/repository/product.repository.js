@@ -1,59 +1,29 @@
 const {
-  DynamoDBDocumentClient,
   PutCommand,
   GetCommand,
   UpdateCommand,
   DeleteCommand,
 } = require("@aws-sdk/lib-dynamodb");
-const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const dynamoDb = require('../db_connection/dbConnection')
+
 const { v4: uuidv4 } = require("uuid");
 
 const PRODUCTS_TABLE = "Products";
 
-const REGION = "us-east-1";
-const dynamoDbClient = new DynamoDBClient({
-  region: REGION
-});
 
-const dynamoDb = DynamoDBDocumentClient.from(dynamoDbClient);
 
-class ProductService {
-  static async createProduct(payload) {
-    const { name, description, price, category, stock } = payload;
-    const productId = uuidv4();
-    const createdAt = new Date().toISOString();
-    const params = {
-      TableName: PRODUCTS_TABLE,
-      Item: {
-        ProductId: productId,
-        Name: name,
-        Description: description,
-        Price: price,
-        Category: category,
-        Stock: stock,
-        CreatedAt: createdAt,
-        UpdatedAt: createdAt,
-      },
-    };
-    console.log({ params });
-    try {
-      await dynamoDb.send(new PutCommand(params));
-      return { productId };
-    } catch (error) {
-      throw error;
-    }
-  }
+
+class ProductRepository {
   /**
    * Get all unpaid jobs for a user
    * either a client or contractor,
    * for active contracts only
    */
-  static async getProductDetail(productId) {
+  static async getProductByID(productId) {
     const params = {
       TableName: PRODUCTS_TABLE,
       Key: { ProductId: productId },
     };
-    console.log({ params });
     try {
       const result = await dynamoDb.send(new GetCommand(params));
       if (result.Item) {
@@ -66,7 +36,7 @@ class ProductService {
     }
   }
 
-  static async updateProductDetail(productId, updatedData) {
+  static async updateProductByID(productId, updatedData) {
     const { name, description, price, category, stock } = updatedData;
     const updatedAt = new Date().toISOString();
     const params = {
@@ -92,7 +62,7 @@ class ProductService {
     }
   }
 
-  static async deleteProduct(productId) {
+  static async deleteProductByID(productId) {
     const params = {
       TableName: PRODUCTS_TABLE,
       Key: { ProductId: productId },
@@ -104,6 +74,31 @@ class ProductService {
       return { error: "Could not delete product" };
     }
   }
+
+  static async createProduct(productData) {
+    const { name, description, price, category, stock } = productData;
+    const productId = uuidv4();
+    const createdAt = new Date().toISOString();
+    const params = {
+      TableName: PRODUCTS_TABLE,
+      Item: {
+        ProductId: productId,
+        Name: name,
+        Description: description,
+        Price: price,
+        Category: category,
+        Stock: stock,
+        CreatedAt: createdAt,
+        UpdatedAt: createdAt,
+      },
+    };
+    try {
+      await dynamoDb.send(new PutCommand(params));
+      return { productId };
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
-module.exports = ProductService;
+module.exports = ProductRepository;
