@@ -1,5 +1,5 @@
 const ProductRepository = require("../../repository/product.repository");
-const dynamoDb = require("../../db_connection/dbConnection");
+const dynamoDb = require("../../../index");
 
 describe("Product Repository", () => {
   afterEach(() => {

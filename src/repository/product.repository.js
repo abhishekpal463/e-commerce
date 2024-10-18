@@ -4,7 +4,7 @@ const {
   UpdateCommand,
   DeleteCommand,
 } = require("@aws-sdk/lib-dynamodb");
-const dynamoDb = require("../db_connection/dbConnection");
+const dynamoDb = require("../../index");
 
 const { v4: uuidv4 } = require("uuid");
 
