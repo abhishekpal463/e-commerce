@@ -3,28 +3,40 @@ name: Deploy
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   deploy_lambda:
     runs-on: ubuntu-latest
     steps:
+      # Checkout the repository
       - uses: actions/checkout@v2
+      
+      # Set up Node.js environment
       - uses: actions/setup-node@v2
         with:
           node-version: '21'
+      
+      # Configure AWS credentials using GitHub secrets
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      - name: npm install
-        env:
-          CI: true
+      
+      # Install dependencies (including Express)
+      - name: Install npm dependencies
+        run: npm ci  # This will install dependencies from package-lock.json
+      
+      # Zip the application files, including node_modules and all other necessary files
+      - name: Package and zip the application
         run: |
-          npm ci
-      - name: deploy
+          zip -r deploy.zip *  # This includes all files and folders (like node_modules)
+      
+      # Deploy to AWS Lambda
+      - name: Deploy to AWS Lambda
         run: |
-          zip -j deploy.zip ./*
-          aws lambda update-function-code --function-name=arn:aws:lambda:us-east-1:850995540078:function:e-commerce-dev-hello --zip-file=fileb://deploy.zip
+          aws lambda update-function-code \
+            --function-name arn:aws:lambda:us-east-1:850995540078:function:e-commerce-dev-hello \
+            --zip-file fileb://deploy.zip
