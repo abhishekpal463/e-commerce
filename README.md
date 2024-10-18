@@ -51,6 +51,8 @@ This project is a **serverless** product management API built using **AWS AppSyn
 
 We have configured a **CI/CD pipeline** using **GitHub Actions** to automate the process of building, testing, and deploying the application. This ensures that the application is consistently deployed to AWS Lambda and AppSync whenever new changes are pushed to the `main` branch.
 
+Note: I am unable to use **AWS CodeCommit** as it is no longer available to new customers - https://aws.amazon.com/blogs/devops/how-to-migrate-your-aws-codecommit-repository-to-another-git-provider/
+
 ### Steps:
 
 1. **Continuous Integration (CI)**:
@@ -157,3 +159,5 @@ mutation UpdateProduct($input: UpdateProductInput!) {
   }
 }
 ```
+
+Short video explanation - https://www.loom.com/share/b7505c443a7845eea9a42dae6a45997e?sid=a9ea08f2-3f29-455f-977f-89bef1464625
