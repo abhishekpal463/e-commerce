@@ -1,7 +1,7 @@
 "use strict";
 const ProductService = require("./src/service/product.service");
 
-module.exports.hello = async (event) => {
+module.exports.handler = async (event) => {
   console.log({ event });
   const operation = event.info.fieldName;
   switch (operation) {
